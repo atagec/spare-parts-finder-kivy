@@ -1,0 +1,236 @@
+# DOM SELECTORS
+# GENEL OTO DOM SELECTORS
+# MARKA
+#pDataTable tbody td:nth-child(5)
+# ÜRETİCİ KODU
+#pDataTable tbody td:nth-child(6)
+#  OEM
+#pDataTable tbody td:nth-child(7)
+#  ÜRÜN ADI
+#pDataTable tbody td:nth-child(8)
+#  AÇIKLAMA
+#pDataTable tbody td:nth-child(9)
+#  İÇERİK
+#pDataTable tbody td:nth-child(10)
+#  ARAÇ TİPİ
+#pDataTable tbody td:nth-child(11)
+#  MOTOR TİPİ
+#pDataTable tbody td:nth-child(12)
+#  LİSTE FİYAT
+#pDataTable tbody td:nth-child(16)
+#  KDV'Lİ MALİYET
+#pDataTable tbody td:nth-child(17)
+#  STOK
+#pDataTable tbody td:nth-child(18) span:nth-child(2)
+
+
+
+
+
+# MOTOR AŞİN DOM SELECTORS
+# MARKA
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(6) span span
+# ÜRETİCİ KODU
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(7) span
+#  OEM
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(4) span
+#  ÜRÜN ADI
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(5) span
+
+# YOK
+#  AÇIKLAMA
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(6)
+#  İÇERİK
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(6)
+#  ARAÇ TİPİ
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(6)
+#  MOTOR TİPİ
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(6)
+# YOK
+
+#  LİSTE FİYAT
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(8) span font:not(.ng-hide)
+#  KDV'Lİ MALİYET
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(10) span span:not(.ng-hide)
+#  STOK
+# .table-products tbody:nth-of-type(2) tr:nth-child(1) td:nth-child(11)
+
+
+
+
+
+# ARSAL OTO DOM SELECTORS
+# MARKA
+# .place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(3) span [1]
+#  OEM
+# '.place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(5)
+#  ÜRÜN ADI
+# .place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(3) span [0]
+
+# YOK
+# ÜRETİCİ KODU
+# .table-products tbody tr:nth-child(1) td:nth-child(7) span
+#  AÇIKLAMA
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  İÇERİK
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  ARAÇ TİPİ
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  MOTOR TİPİ
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  LİSTE FİYAT
+# .table-products tbody tr:nth-child(1) td:nth-child(8) span font:not(.ng-hide)
+# YOK
+
+#  KDV'Lİ MALİYET
+# .place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(8)
+#  STOK
+# .place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(7) img[alt*="Yok"]
+# .place-self-center .p-datatable-tbody tr:nth-of-type(1) td:nth-of-type(7) img[alt*="Var"]
+
+
+
+
+
+# BAŞBUĞ OTO DOM SELECTORS
+# MARKA
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(1)
+#  OEM
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(3)
+#  ÜRÜN ADI
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(6)
+#  ARAÇ TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(8)
+#  MOTOR TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(9)
+
+# YOK
+# ÜRETİCİ KODU
+# .table-products tbody tr:nth-child(1) td:nth-child(7) span
+#  AÇIKLAMA
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  İÇERİK
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+# YOK
+
+# LİSTE FİYAT
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(11)
+# KDV'Lİ MALİYET
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(12)
+# STOK
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(15) img[src*="green"]
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(15) img[src*="pink"]
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(15) img[src*="red"]
+
+
+
+
+
+ # BORUSAN OTO DOM SELECTORS
+# MARKA
+# #divItemResult table tbody tr:nth-of-type(2) td:nth-of-type(2)
+#  OEM
+# #divItemResult table tbody tr:nth-of-type(1) td:nth-of-type(2)
+#  ÜRÜN ADI
+# #divItemResult table tbody tr:nth-of-type(1) td:nth-of-type(4)
+
+
+# YOK
+# ÜRETİCİ KODU
+# .table-products tbody tr:nth-child(1) td:nth-child(7) span
+#  AÇIKLAMA
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  İÇERİK
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  ARAÇ TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(8)
+#  MOTOR TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(9)
+# YOK
+
+# LİSTE FİYAT
+# #divItemResult table tbody tr:nth-of-type(2) td:nth-of-type(4)
+# KDV'Lİ MALİYET
+# #divItemResult table tbody tr:nth-of-type(4) td:nth-of-type(4)
+# STOK
+# #divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)
+
+
+
+
+
+# MERCANLAR OTO DOM SELECTORS
+#  MARKA
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(3) .value
+#  OEM
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value
+#  ÜRÜN ADI
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(3) .thumb-list-item-group:nth-of-type(1) .value
+#  ÜRETİCİ KODU
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value
+
+
+# YOK
+#  AÇIKLAMA
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  İÇERİK
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  ARAÇ TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(8)
+#  MOTOR TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(9)
+# YOK
+
+# LİSTE FİYAT
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(2) .value TRIM
+# KDV'Lİ MALİYET
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(6) .row:nth-of-type(2) .total-price TRIM
+
+# STOK
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(5) .thumb-list-item-group .value:nth-of-type(2) ul span
+# MEVCUT
+# #divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)
+# KRİTİK SEVİYEDE
+# #divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)
+# YOK
+# #divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)
+# SORUNUZ
+# #divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)
+
+
+
+
+
+
+# BABACAN OTO DOM SELECTORS
+#  MARKA
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(5)
+#  ÜRÜN ADI
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(3)
+#  ARAÇ TİPİ
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(4)
+
+
+# YOK
+#  OEM
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value
+#  ÜRETİCİ KODU
+# .result-container .product-item-wrapper:nth-of-type(1) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value
+#  İÇERİK
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  AÇIKLAMA
+# .table-products tbody tr:nth-child(1) td:nth-child(6)
+#  MOTOR TİPİ
+# #grAramaSonuc-body table[id^="tableview"]:nth-of-type(1) td:nth-of-type(9)
+# YOK
+
+# LİSTE FİYAT
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(8)
+# KDV'Lİ MALİYET
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(8) - '-'
+
+# STOK
+# MEVCUT
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(6) img[src*="green"]
+# YOK
+# #gvResult .Row:nth-of-type(1) .Cell:nth-of-type(6) img[src*="red"]
