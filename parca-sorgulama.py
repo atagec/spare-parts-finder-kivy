@@ -10,11 +10,17 @@ import time
 from asyncio import run
 
 # kivy imports
+from kivy.lang import Builder
 from kivy.metrics import dp
-
 from kivymd.app import MDApp
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDFlatButton
+
+
+
 
 
 
@@ -29,13 +35,43 @@ customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark",
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-class DesktopView(MDScreen):
-    pass
-
 class App(MDApp):
     def __init__(self):
         super().__init__()
     def build(self):
+        # Create the input field
+        layout = MDBoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
+
+        # Create the input field layout
+        input_layout = MDBoxLayout( orientation='horizontal',size_hint=(None, None), width=200, height="40dp")
+
+  
+        input_layout.add_widget(MDBoxLayout(size_hint_x=None, width=1))
+        # Create the input field
+        self.input_field = MDTextField(
+            hint_text="Enter data",
+            size_hint_x=None,
+            width=input_layout.width
+        )
+        # Create the input field
+        # self.input_field = MDTextField(
+        #     hint_text="Enter data",
+        #     size_hint_y=None,
+        #     width=200,
+        #     height="40dp"
+        # )
+
+        # Create the submit button
+        submit_button = MDFlatButton(
+            text="Submit",
+            size_hint=(None, None),
+            width=100,
+            height="40dp",
+        )
+
+        input_layout.add_widget(self.input_field)
+        input_layout.add_widget(submit_button)
+        
         self.data_tables = MDDataTable(
             use_pagination=True,
             check=True,
@@ -125,9 +161,12 @@ class App(MDApp):
         )
         self.data_tables.bind(on_row_press=self.on_row_press)
         self.data_tables.bind(on_check_press=self.on_check_press)
-        screen = MDScreen()
-        screen.add_widget(self.data_tables)
-        return screen
+        # screen = MDScreen()
+        # screen.add_widget(input_field)
+        # screen.add_widget(self.data_tables)
+        layout.add_widget(input_layout)
+        layout.add_widget(self.data_tables)
+        return layout
 
     def on_row_press(self, instance_table, instance_row):
         '''Called when a table row is clicked.'''
