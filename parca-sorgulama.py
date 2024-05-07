@@ -1,22 +1,27 @@
 import customtkinter
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import StaleElementReferenceException
-from functools import cached_property
 from CTkTable import *
 import numpy as np
 import time
 from asyncio import run
 
+# kivy imports
+from kivy.metrics import dp
 
-from browser_driver import BrowserDriver
-browser_instance = BrowserDriver()
-driver = browser_instance.driver
+from kivymd.app import MDApp
+from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.screen import MDScreen
+
+
+
+# BROWSER DRIVER IMPORTS
+# from browser_driver import BrowserDriver
+# browser_instance = BrowserDriver()
+# driver = browser_instance.driver
 
 
 
@@ -24,22 +29,160 @@ customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark",
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-class App(customtkinter.CTk):
+class DesktopView(MDScreen):
+    pass
+
+class App(MDApp):
     def __init__(self):
         super().__init__()
+    def build(self):
+        self.data_tables = MDDataTable(
+            use_pagination=True,
+            check=True,
+            column_data=[
+                ("MARKA.", dp(30)),
+                ("ÜRETİCİ KODU", dp(30)),
+                ("OEM", dp(60), self.sort_on_signal),
+                ("ÜRÜN ADI", dp(30)),
+                ("AÇIKLAMA", dp(30)),
+                ("ARAÇ TİPİ", dp(30), self.sort_on_schedule),
+                ("MOTOR TİPİ", dp(30), self.sort_on_team),
+                ("LİSTE FİYAT", dp(30), self.sort_on_team),
+                ("STOK", dp(30), self.sort_on_team)
+            ],
+            row_data=[
+                (
+                    "1",
+                    ("alert", [255 / 256, 165 / 256, 0, 1], "No Signal"),
+                    "Astrid: NE shared managed",
+                    "Medium",
+                    "Triaged",
+                    "0:33",
+                    "Chase Nguyen",
+                    "Chase Nguyen",
+                    "Chase Nguyen"
+                ),
+                (
+                    "2",
+                    ("alert-circle", [1, 0, 0, 1], "Offline"),
+                    "Cosmo: prod shared ares",
+                    "Huge",
+                    "Triaged",
+                    "0:39",
+                    "Brie Furman",
+                    "Brie Furman",
+                    "Brie Furman"
+                ),
+                (
+                    "3",
+                    (
+                        "checkbox-marked-circle",
+                        [39 / 256, 174 / 256, 96 / 256, 1],
+                        "Online",
+                    ),
+                    "Phoenix: prod shared lyra-lists",
+                    "Minor",
+                    "Not Triaged",
+                    "3:12",
+                    "Jeremy lake",
+                    "Jeremy lake",
+                    "Jeremy lake"
+                ),
+                (
+                    "4",
+                    (
+                        "checkbox-marked-circle",
+                        [39 / 256, 174 / 256, 96 / 256, 1],
+                        "Online",
+                    ),
+                    "Sirius: NW prod shared locations",
+                    "Negligible",
+                    "Triaged",
+                    "13:18",
+                    "Angelica Howards",
+                    "Angelica Howards",
+                    "Angelica Howards"
+                ),
+                (
+                    "5",
+                    (
+                        "checkbox-marked-circle",
+                        [39 / 256, 174 / 256, 96 / 256, 1],
+                        "Online",
+                    ),
+                    "Sirius: prod independent account",
+                    "Negligible",
+                    "Triaged",
+                    "22:06",
+                    "Diane Okuma",
+                    "Diane Okuma",
+                    "Diane Okuma"
+                ),
+            ],
+            sorted_on="Schedule",
+            sorted_order="ASC",
+            elevation=2,
+        )
+        self.data_tables.bind(on_row_press=self.on_row_press)
+        self.data_tables.bind(on_check_press=self.on_check_press)
+        screen = MDScreen()
+        screen.add_widget(self.data_tables)
+        return screen
+
+    def on_row_press(self, instance_table, instance_row):
+        '''Called when a table row is clicked.'''
+
+        print(instance_table, instance_row)
+
+    def on_check_press(self, instance_table, current_row):
+        '''Called when the check box in the table row is checked.'''
+
+        print(instance_table, current_row)
+
+    # Sorting Methods:
+    # since the https://github.com/kivymd/KivyMD/pull/914 request, the
+    # sorting method requires you to sort out the indexes of each data value
+    # for the support of selections.
+    #
+    # The most common method to do this is with the use of the builtin function
+    # zip and enumerate, see the example below for more info.
+    #
+    # The result given by these funcitons must be a list in the format of
+    # [Indexes, Sorted_Row_Data]
+
+    def sort_on_signal(self, data):
+        return zip(*sorted(enumerate(data), key=lambda l: l[1][2]))
+
+    def sort_on_schedule(self, data):
+        return zip(
+            *sorted(
+                enumerate(data),
+                key=lambda l: sum(
+                    [
+                        int(l[1][-2].split(":")[0]) * 60,
+                        int(l[1][-2].split(":")[1]),
+                    ]
+                ),
+            )
+        )
+
+    def sort_on_team(self, data):
+        return zip(*sorted(enumerate(data), key=lambda l: l[1][-1]))
+    # def __init__(self):
+    #     super().__init__()
 
         # configure window
-        self.title("Çobanoğlu Parça Sorgulama")
-        self.geometry(f"{1100}x{580}")
+        # self.title("Çobanoğlu Parça Sorgulama")
+        # self.geometry(f"{1100}x{580}")
 
         # Grid configuration
-        self.configure_grid()
+        # self.configure_grid()
 
         # Create frame
-        self.create_frame()
+        # self.create_frame()
 
         # Create entry and search button
-        self.create_entry_and_button()
+        # self.create_entry_and_button()
 
        
 
@@ -67,6 +210,7 @@ class App(customtkinter.CTk):
 
         self.search_button = customtkinter.CTkButton(master=self.frame, text="ARA", width=90, command=self.searchPart, fg_color="#0054ac")
         self.search_button.grid(row=0, column=2, sticky="w", padx=(12, 0), pady=12)
+
 
 
     # @cached_property
@@ -1293,7 +1437,8 @@ class App(customtkinter.CTk):
 
 if __name__ == "__main__":
     app = App()
-    app.mainloop()
+    app.run()
+    # app.mainloop()
 
 
   
