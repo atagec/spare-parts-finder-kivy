@@ -25,9 +25,9 @@ from kivymd.uix.button import MDFlatButton
 
 
 # BROWSER DRIVER IMPORTS
-# from browser_driver import BrowserDriver
-# browser_instance = BrowserDriver()
-# driver = browser_instance.driver
+from browser_driver import BrowserDriver
+browser_instance = BrowserDriver()
+driver = browser_instance.driver
 
 
 
@@ -40,7 +40,7 @@ class App(MDApp):
         super().__init__()
     def build(self):
         # Create the input field
-        layout = MDBoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
+        self.layout = MDBoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
 
         # Create the input field layout
         input_layout = MDBoxLayout( orientation='horizontal',size_hint=(None, None), width=200, height="40dp")
@@ -68,6 +68,9 @@ class App(MDApp):
             width=100,
             height="40dp",
         )
+
+        submit_button.bind(on_release=self.searchPart)
+
 
         input_layout.add_widget(self.input_field)
         input_layout.add_widget(submit_button)
@@ -159,14 +162,14 @@ class App(MDApp):
             sorted_order="ASC",
             elevation=2,
         )
-        self.data_tables.bind(on_row_press=self.on_row_press)
-        self.data_tables.bind(on_check_press=self.on_check_press)
+        # self.data_tables.bind(on_row_press=self.on_row_press)
+        # self.data_tables.bind(on_check_press=self.on_check_press)
         # screen = MDScreen()
         # screen.add_widget(input_field)
         # screen.add_widget(self.data_tables)
-        layout.add_widget(input_layout)
-        layout.add_widget(self.data_tables)
-        return layout
+        self.layout.add_widget(input_layout)
+        # self.layout.add_widget(self.data_tables)
+        return self.layout
 
     def on_row_press(self, instance_table, instance_row):
         '''Called when a table row is clicked.'''
@@ -1360,10 +1363,12 @@ class App(MDApp):
         # self.hideTable()
         # self.showLoader()
 
-        self.data = ["MARKA", "ÜRETİCİ KODU ", "OEM", "ÜRÜN ADI", "AÇIKLAMA", "ARAÇ TİPİ", "MOTOR TİPİ", "LİSTE FİYAT", "KDV'Lİ MALİYET", "STOK"]
-        column_count = len(self.data)
+        # self.data = ["MARKA", "ÜRETİCİ KODU ", "OEM", "ÜRÜN ADI", "AÇIKLAMA", "ARAÇ TİPİ", "MOTOR TİPİ", "LİSTE FİYAT", "KDV'Lİ MALİYET", "STOK"]
+        self.data = []
 
-        self.user_input = self.entry.get().strip();
+        column_count = 10;
+
+        self.user_input = self.input_field.text.strip();
 
         header_indexes = []
 
@@ -1456,21 +1461,45 @@ class App(MDApp):
         self.data = np.reshape(self.data, [row_count, column_count])
         self.data = list(self.data)
 
+        print('final data', self.data)
+
         # self.hideLoader()
+
+        self.data_tables = MDDataTable(
+            use_pagination=True,
+            check=True,
+            column_data=[
+                ("MARKA.", dp(30)),
+                ("ÜRETİCİ KODU", dp(30)),
+                ("OEM", dp(60), self.sort_on_signal),
+                ("ÜRÜN ADI", dp(30)),
+                ("AÇIKLAMA", dp(30)),
+                ("ARAÇ TİPİ", dp(30), self.sort_on_schedule),
+                ("MOTOR TİPİ", dp(30), self.sort_on_team),
+                ("LİSTE FİYAT", dp(30), self.sort_on_team),
+                ("KDV'Lİ MALİYET", dp(30), self.sort_on_team),
+                ("STOK", dp(30), self.sort_on_team)
+            ],
+            row_data=self.data,
+            sorted_on="Schedule",
+            sorted_order="ASC",
+            elevation=2,
+        )
+
+        self.layout.add_widget(self.data_tables)
         
-        self.table = CTkTable(self, row=row_count, column=column_count, values=self.data, header_color="#90290a", font=('Calibri', 18))
-        self.table.grid(row=1, rowspan=1, column=0, columnspan=3, sticky="wens", padx=(0, 0), pady=(0, 0))
+        # self.table = CTkTable(self, row=row_count, column=column_count, values=self.data, header_color="#90290a", font=('Calibri', 18))
+        # self.table.grid(row=1, rowspan=1, column=0, columnspan=3, sticky="wens", padx=(0, 0), pady=(0, 0))
 
 
 
 
-        for j in list(header_indexes):
-            self.table.edit_row(j, font=(None, 25), fg_color="#202020")
+        # for j in list(header_indexes):
+        #     self.table.edit_row(j, font=(None, 25), fg_color="#202020")
         
 
-        for i in list(stock_indexes):
-            self.table.edit_row(i, fg_color="green")
-            # self.table.select(i, 10).edit(fg_color="green")
+        # for i in list(stock_indexes):
+        #     self.table.edit_row(i, fg_color="green")
 
 
 
