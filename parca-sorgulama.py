@@ -11,17 +11,24 @@ from asyncio import run
 
 # kivy imports
 from kivy.lang import Builder
+from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
+
 from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDRectangleFlatIconButton
+from kivy.uix.button import Button
 
 
 
 
+
+
+# https://www.youtube.com/watch?v=dVVPOPuPPc0
 
 
 # BROWSER DRIVER IMPORTS
@@ -31,10 +38,6 @@ driver = browser_instance.driver
 
 
 
-customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
-
-
 class App(MDApp):
     def __init__(self):
         super().__init__()
@@ -42,17 +45,21 @@ class App(MDApp):
         # Create the input field
         self.layout = MDBoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
 
+
         # Create the input field layout
         input_layout = MDBoxLayout( orientation='horizontal',size_hint=(None, None), width=200, height="40dp")
 
   
-        input_layout.add_widget(MDBoxLayout(size_hint_x=None, width=1))
+        # input_layout.add_widget(MDBoxLayout(size_hint_x=None, width=1))
         # Create the input field
         self.input_field = MDTextField(
-            hint_text="Enter data",
+            hint_text="OEM No",
             size_hint_x=None,
             width=input_layout.width
         )
+
+        # Create table placeholder field
+        self.table_placeholder = Button(text='OEM NO Giriniz', color="black", size_hint=(1, 1), background_color="#c5d5c500")
         # Create the input field
         # self.input_field = MDTextField(
         #     hint_text="Enter data",
@@ -62,11 +69,11 @@ class App(MDApp):
         # )
 
         # Create the submit button
-        submit_button = MDFlatButton(
-            text="Submit",
-            size_hint=(None, None),
-            width=100,
-            height="40dp",
+        submit_button = MDRectangleFlatIconButton(
+            text="ARA",
+            md_bg_color="blue",
+            text_color= "white",
+            line_color= "blue"
         )
 
         submit_button.bind(on_release=self.searchPart)
@@ -74,6 +81,8 @@ class App(MDApp):
 
         input_layout.add_widget(self.input_field)
         input_layout.add_widget(submit_button)
+
+        
         
         self.data_tables = MDDataTable(
             use_pagination=True,
@@ -168,6 +177,7 @@ class App(MDApp):
         # screen.add_widget(input_field)
         # screen.add_widget(self.data_tables)
         self.layout.add_widget(input_layout)
+        self.layout.add_widget(self.table_placeholder)
         # self.layout.add_widget(self.data_tables)
         return self.layout
 
@@ -312,7 +322,7 @@ class App(MDApp):
 
     
     async def runTabControlProcessGenelOto(self, is_tab_active, mainURL, homeURL, searchURL, customer_code_value, user_code_value, password_value):
-            # if (self.driver.current_url != homeURL or self.driver.current_url != searchURL):
+            # if (driver.current_url != homeURL or driver.current_url != searchURL):
             driver.get(mainURL)
             # LOGGED IN KONTROLÜ EKLENECEK
             # GET DOM ELEMENTS
@@ -324,8 +334,8 @@ class App(MDApp):
                 self.searchGenelOtoPart(searchURL)
             
             # GO TO SEARCH PAGE
-            # if(self.driver.current_url != searchURL):
-            #     self.driver.get(searchURL)
+            # if(driver.current_url != searchURL):
+            #     driver.get(searchURL)
                 # WAIT FOR DOM TO LOAD
     
 
@@ -458,10 +468,10 @@ class App(MDApp):
 
     async def loginMotorAsinUser(self, usr_value, pw_value):
         print('login motor aşin')
-        WebDriverWait(self.driver, 2).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "txtUserName")))
-        username = self.driver.find_element(By.CLASS_NAME, "txtUserName") 
-        password = self.driver.find_element(By.CLASS_NAME, "txtPassword") 
-        login_button = self.driver.find_element(By.ID, 'login')
+        WebDriverWait(driver, 2).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "txtUserName")))
+        username = driver.find_element(By.CLASS_NAME, "txtUserName") 
+        password = driver.find_element(By.CLASS_NAME, "txtPassword") 
+        login_button = driver.find_element(By.ID, 'login')
         # FILL DOM ELEMENTS
         username.send_keys(usr_value)
         password.send_keys(pw_value)
@@ -472,11 +482,11 @@ class App(MDApp):
 
 
     async def runTabControlProcessMotorAsin(self, is_tab_active, mainURL,  usr_value, pw_value):
-            self.driver.execute_script("window.open('about:blank', 'motorasin');")
-            self.driver.switch_to.window("motorasin")
-            self.driver.get(mainURL)
+            driver.execute_script("window.open('about:blank', 'motorasin');")
+            driver.switch_to.window("motorasin")
+            driver.get(mainURL)
 
-            # if ('search' not in self.driver.current_url):
+            # if ('search' not in driver.current_url):
             # LOGGED IN KONTROLÜ EKLENECEK
             # GET DOM ELEMENTS
             try:
@@ -488,11 +498,11 @@ class App(MDApp):
 
     def searchMotorAsinPart(self):
         print('aşin search started')
-        WebDriverWait(self.driver, 400).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".td-item.td-product")))
-        # WebDriverWait(self.driver, 400).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, 'input[type="text"].searchInput')))
+        WebDriverWait(driver, 400).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".td-item.td-product")))
+        # WebDriverWait(driver, 400).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, 'input[type="text"].searchInput')))
         print('aşin search middle')
-        self.driver.find_element(By.CSS_SELECTOR, ".td-item.td-product")
-        oem_search = self.driver.find_element(By.CLASS_NAME, "searchInput")
+        driver.find_element(By.CSS_SELECTOR, ".td-item.td-product")
+        oem_search = driver.find_element(By.CLASS_NAME, "searchInput")
         oem_search.send_keys(Keys.CONTROL + "a")
         oem_search.send_keys(Keys.DELETE)   
         oem_search.send_keys(self.user_input)
@@ -502,13 +512,13 @@ class App(MDApp):
 
     def extractMotorAsinPartData(self, data2):
         # time.sleep(3.5)
-        WebDriverWait(self.driver, 300).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2)")))
-        # WebDriverWait(self.driver, 4000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "mark")))
-        # alert = self.driver.find_element(By.CSS_SELECTOR, '.table-products tbody:nth-of-type(2) > tr td')
+        WebDriverWait(driver, 300).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2)")))
+        # WebDriverWait(driver, 4000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "mark")))
+        # alert = driver.find_element(By.CSS_SELECTOR, '.table-products tbody:nth-of-type(2) > tr td')
         
-        dom_elements = self.driver.find_elements(By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2) > tr")
+        dom_elements = driver.find_elements(By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2) > tr")
 
-        table_data = self.driver.find_element(By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2)")
+        table_data = driver.find_element(By.CSS_SELECTOR, ".table-products tbody:nth-of-type(2)")
         # GET ROW COUNT 
         row_count = len(dom_elements);
 
@@ -573,7 +583,7 @@ class App(MDApp):
 
             try: 
                 time.sleep(1)
-                self.driver.find_element(By.CSS_SELECTOR, '.table-products tbody:nth-of-type(2) > tr')
+                driver.find_element(By.CSS_SELECTOR, '.table-products tbody:nth-of-type(2) > tr')
                 data2 = self.extractMotorAsinPartData(data2)
 
 
@@ -594,11 +604,11 @@ class App(MDApp):
         return mainURL, searchURL, usr_value, pw_value, data3;
 
     def loginArsalOtoUser(self, usr_value, pw_value):
-        WebDriverWait(self.driver, 2000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, '.inputfrm[type="text"]')))
+        WebDriverWait(driver, 2000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, '.inputfrm[type="text"]')))
         # GET DOM ELEMENTS
-        username = self.driver.find_element(By.CSS_SELECTOR, '.inputfrm[type="text"]') 
-        password = self.driver.find_element(By.CSS_SELECTOR, '.inputfrm[type="password"]') 
-        login_button = self.driver.find_element(By.ID, 'login_button') 
+        username = driver.find_element(By.CSS_SELECTOR, '.inputfrm[type="text"]') 
+        password = driver.find_element(By.CSS_SELECTOR, '.inputfrm[type="password"]') 
+        login_button = driver.find_element(By.ID, 'login_button') 
         # FILL DOM ELEMENTS
         username.send_keys(usr_value)
         password.send_keys(pw_value)
@@ -607,13 +617,13 @@ class App(MDApp):
         self.searchArsalOtoPart()
 
     async def runTabControlProcessArsalOto(self, is_tab_active, mainURL, searchURL, usr_value, pw_value):
-            self.driver.execute_script("window.open('about:blank', 'arsaloto');")
-            self.driver.switch_to.window("arsaloto")
-            self.driver.get(mainURL)
+            driver.execute_script("window.open('about:blank', 'arsaloto');")
+            driver.switch_to.window("arsaloto")
+            driver.get(mainURL)
 
 
-            # if (self.driver.current_url != searchURL):
-            #     self.driver.get(mainURL)
+            # if (driver.current_url != searchURL):
+            #     driver.get(mainURL)
                 
             try:
                 await self.loginArsalOtoUser(usr_value, pw_value)
@@ -622,13 +632,13 @@ class App(MDApp):
                 # time.sleep(3)
 
                 # GO TO SEARCH PAGE
-                # self.driver.get(searchURL)
-                # WebDriverWait(self.driver, 500).until(expected_conditions.visibility_of_element_located((By.ID, "searchbar")))
+                # driver.get(searchURL)
+                # WebDriverWait(driver, 500).until(expected_conditions.visibility_of_element_located((By.ID, "searchbar")))
 
     def searchArsalOtoPart(self):
         time.sleep(2)
         # SEARCH PART
-        searchbar = self.driver.find_element(By.ID, "searchbar")
+        searchbar = driver.find_element(By.ID, "searchbar")
         searchbar.send_keys(Keys.CONTROL + "a")
         searchbar.send_keys(Keys.DELETE)     
         searchbar.send_keys(self.user_input)
@@ -638,16 +648,16 @@ class App(MDApp):
         # WAIT FOR DOM TO LOAD
         # time.sleep(5)
     
-        WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-table")))
+        WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-table")))
     
     def extractArsalOtoPartData(self, data3):
         time.sleep(4.5)
         # GET ROW COUNT 
-        dom_elements = self.driver.find_elements(By.CSS_SELECTOR, ".place-self-center .p-datatable-tbody tr")
+        dom_elements = driver.find_elements(By.CSS_SELECTOR, ".place-self-center .p-datatable-tbody tr")
     
         row_count = len(dom_elements);
 
-        table_data = self.driver.find_element(By.CSS_SELECTOR, ".place-self-center")
+        table_data = driver.find_element(By.CSS_SELECTOR, ".place-self-center")
 
         print('create arsal data')
         for i in range(row_count):
@@ -687,8 +697,8 @@ class App(MDApp):
         return data3;
 
     # def checkIfPartExistsArsalOto(self, data3):
-    #     WebDriverWait(self.driver, 4).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-emptymessage")))
-    #     result_message = self.driver.find_element(By.CSS_SELECTOR, ".p-datatable-emptymessage div")
+    #     WebDriverWait(driver, 4).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-emptymessage")))
+    #     result_message = driver.find_element(By.CSS_SELECTOR, ".p-datatable-emptymessage div")
     #     if (alert_text in result_text):
     #         no_record = ['','','','','','KAYIT BULUNAMADI','','','','']
     #         data6.extend(no_record)
@@ -700,7 +710,7 @@ class App(MDApp):
     async def arsalOtoSearch(self):
         mainURL, searchURL, usr_value, pw_value, data3 = self.getArsalOtoVariables()
 
-        is_tab_active = self.checkIfTabActive(2)
+        is_tab_active = self.checkIfTabActive(0)
 
         if (is_tab_active):
            self.searchArsalOtoPart()
@@ -716,8 +726,8 @@ class App(MDApp):
     
         except:
              # time.sleep(2.5)
-            WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-emptymessage")))
-            alert = self.driver.find_element(By.CSS_SELECTOR, '.p-datatable-emptymessage')
+            WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-emptymessage")))
+            alert = driver.find_element(By.CSS_SELECTOR, '.p-datatable-emptymessage')
             no_record = ['','','','','','KAYIT BULUNAMADI','','','','']
             data3.extend(no_record)
             
@@ -735,9 +745,9 @@ class App(MDApp):
 
     async def runTabControlProcessBasbugOto(self, is_tab_active, mainURL, searchURL, usr_value, pw_value):
             
-            self.driver.execute_script("window.open('about:blank', 'basbugoto');")
-            self.driver.switch_to.window("basbugoto")
-            self.driver.get(mainURL)
+            driver.execute_script("window.open('about:blank', 'basbugoto');")
+            driver.switch_to.window("basbugoto")
+            driver.get(mainURL)
 
             try:
                 await self.loginBasbugOtoUser(searchURL, usr_value, pw_value)
@@ -748,11 +758,11 @@ class App(MDApp):
         # LOGGED IN KONTROLÜ EKLENECEK
         # GET DOM ELEMENTS
         print('login started')
-        WebDriverWait(self.driver, 6).until(expected_conditions.visibility_of_element_located((By.ID, 'KullaniciAd')))
+        WebDriverWait(driver, 6).until(expected_conditions.visibility_of_element_located((By.ID, 'KullaniciAd')))
         time.sleep(0.5)
-        username = self.driver.find_element(By.ID, 'KullaniciAd') 
-        password = self.driver.find_element(By.ID, 'Sifre') 
-        login_button = self.driver.find_element(By.CSS_SELECTOR, 'form .btn.style-danger.btn-raised') 
+        username = driver.find_element(By.ID, 'KullaniciAd') 
+        password = driver.find_element(By.ID, 'Sifre') 
+        login_button = driver.find_element(By.CSS_SELECTOR, 'form .btn.style-danger.btn-raised') 
         # FILL DOM ELEMENTS
         username.send_keys(usr_value)
         password.send_keys(pw_value)
@@ -763,12 +773,12 @@ class App(MDApp):
         self.searchBasbugOtoPart(searchURL)
     
     def searchBasbugOtoPart(self, searchURL):
-        if (self.driver.current_url != searchURL):
-            self.driver.get(searchURL)
+        if (driver.current_url != searchURL):
+            driver.get(searchURL)
         # SEARCH PART
         print('basbug search started')
-        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "txtTumundeAra")))
-        searchbar = self.driver.find_element(By.ID, "txtTumundeAra")
+        WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "txtTumundeAra")))
+        searchbar = driver.find_element(By.ID, "txtTumundeAra")
         searchbar.send_keys(Keys.CONTROL + "a")
         searchbar.send_keys(Keys.DELETE)     
         searchbar.send_keys(self.user_input)
@@ -780,10 +790,10 @@ class App(MDApp):
 
     def extractBasbugOtoPartData(self, data4):
          # GET ROW COUNT 
-        dom_elements = self.driver.find_elements(By.CSS_SELECTOR, "#grAramaSonuc-body table[id^='tableview']")
+        dom_elements = driver.find_elements(By.CSS_SELECTOR, "#grAramaSonuc-body table[id^='tableview']")
         row_count = len(dom_elements);
 
-        table_data = self.driver.find_element(By.CSS_SELECTOR, '#grAramaSonuc-body')
+        table_data = driver.find_element(By.CSS_SELECTOR, '#grAramaSonuc-body')
 
 
 
@@ -865,7 +875,7 @@ class App(MDApp):
             await self.runTabControlProcessBasbugOto(is_tab_active, mainURL, searchURL, usr_value, pw_value)
             
         try:
-            self.driver.find_element(By.CSS_SELECTOR, "#grAramaSonuc-body table[id^='tableview']")
+            driver.find_element(By.CSS_SELECTOR, "#grAramaSonuc-body table[id^='tableview']")
 
 
             print('basbug try 2')
@@ -893,30 +903,30 @@ class App(MDApp):
     
     async def runTabControlProcessBorusanOto(self, is_tab_active, mainURL, searchURL, usr_value, pw_value):
 
-            self.driver.execute_script("window.open('about:blank', 'borusanoto');")
-            self.driver.switch_to.window("borusanoto")
-            self.driver.get(mainURL)
+            driver.execute_script("window.open('about:blank', 'borusanoto');")
+            driver.switch_to.window("borusanoto")
+            driver.get(mainURL)
 
-            # if (searchURL not in self.driver.current_url):
+            # if (searchURL not in driver.current_url):
 
-                # self.driver.get(mainURL)
+                # driver.get(mainURL)
                 # LOGGED IN KONTROLÜ EKLENECEK
                 # GET DOM ELEMENTS
             try:
                 await self.loginBorusanOtoUser(usr_value, pw_value, searchURL)
 
-                # self.driver.get(searchURL)
+                # driver.get(searchURL)
             except:
-                WebDriverWait(self.driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, "divCartBlockPartial")))
-                # self.driver.get(searchURL)
+                WebDriverWait(driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, "divCartBlockPartial")))
+                # driver.get(searchURL)
 
                 self.searchBorusanOtoPart(searchURL)
 
     def loginBorusanOtoUser(self, usr_value, pw_value, searchURL):
-        WebDriverWait(self.driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, 'UserName')))
-        username = self.driver.find_element(By.ID, 'UserName') 
-        password = self.driver.find_element(By.ID, 'Password') 
-        login_button = self.driver.find_element(By.ID, 'btnLogon') 
+        WebDriverWait(driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, 'UserName')))
+        username = driver.find_element(By.ID, 'UserName') 
+        password = driver.find_element(By.ID, 'Password') 
+        login_button = driver.find_element(By.ID, 'btnLogon') 
         # FILL DOM ELEMENTS
         username.send_keys(usr_value)
         password.send_keys(pw_value)
@@ -928,20 +938,20 @@ class App(MDApp):
         self.searchBorusanOtoPart(searchURL)
     
     def searchBorusanOtoPart(self, searchURL):
-        if (self.driver.current_url != searchURL):
-            self.driver.get(searchURL)
+        if (driver.current_url != searchURL):
+            driver.get(searchURL)
         
          # GO TO SEARCH PAGE
-        WebDriverWait(self.driver, 750).until(expected_conditions.visibility_of_element_located((By.ID, "ItemNo_I")))
+        WebDriverWait(driver, 750).until(expected_conditions.visibility_of_element_located((By.ID, "ItemNo_I")))
         # SEARCH PART
-        searchbar = self.driver.find_element(By.ID, "ItemNo_I")
+        searchbar = driver.find_element(By.ID, "ItemNo_I")
         searchbar.send_keys(Keys.CONTROL + "a")
         searchbar.send_keys(Keys.DELETE)     
         searchbar.send_keys(self.user_input)
         searchbar.send_keys(Keys.ENTER)
 
     def checkIfPartExistsBorusanOto(self, data5):
-        result_text = self.driver.find_element(By.CSS_SELECTOR, "#divItemResult tbody").text
+        result_text = driver.find_element(By.CSS_SELECTOR, "#divItemResult tbody").text
         alert_text = 'tanımlı değil'
         if (alert_text in result_text):
             no_record = ['','','','','','KAYIT BULUNAMADI','','','','']
@@ -954,13 +964,13 @@ class App(MDApp):
 
     def extractBorusanOtoPartData(self, data5):
         brand_selector = '#divItemResult table tbody tr:nth-of-type(2) td:nth-of-type(2)';
-        brand = self.driver.find_elements(By.CSS_SELECTOR, brand_selector)[0].text
+        brand = driver.find_elements(By.CSS_SELECTOR, brand_selector)[0].text
 
         oem_no_selector = '#divItemResult table tbody tr:nth-of-type(1) td:nth-of-type(2)';
-        oem_no = self.driver.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
+        oem_no = driver.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
 
         product_name_selector =  '#divItemResult table tbody tr:nth-of-type(1) td:nth-of-type(4)';
-        product_name = self.driver.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
+        product_name = driver.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
 
 
         manufacturer_code = "-"
@@ -971,17 +981,17 @@ class App(MDApp):
 
         
         list_price_selector = '#divItemResult table tbody tr:nth-of-type(2) td:nth-of-type(4)'
-        list_price = self.driver.find_elements(By.CSS_SELECTOR,  list_price_selector)[0].text
+        list_price = driver.find_elements(By.CSS_SELECTOR,  list_price_selector)[0].text
 
         tax_included_price_selector = '#divItemResult table tbody tr:nth-of-type(4) td:nth-of-type(4)'
-        tax_included_price_value = self.driver.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text
+        tax_included_price_value = driver.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text
         tax_included_price = "₺" + tax_included_price_value
 
         # in_stock_selector = '#grAramaSonuc-body table[id^="tableview"]:nth-of-type(' + str( i + 1 ) +') td:nth-of-type(15) img[src*="green"]';
         # on_the_way_stock_selector = '#grAramaSonuc-body table[id^="tableview"]:nth-of-type(' + str( i + 1 ) +') td:nth-of-type(15) img[src*="pink"]'
         
         stock_selector = '#divItemResult table tbody tr:nth-of-type(3) td:nth-of-type(2)';
-        stock = self.driver.find_elements(By.CSS_SELECTOR, stock_selector)[0].text
+        stock = driver.find_elements(By.CSS_SELECTOR, stock_selector)[0].text
 
         values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
         data5.extend(values)
@@ -990,7 +1000,7 @@ class App(MDApp):
     async def borusanOtoSearch(self):
         mainURL, searchURL, usr_value, pw_value, data5 = self.getBorusanOtoVariables();
 
-        is_tab_active = self.checkIfTabActive(4)
+        is_tab_active = self.checkIfTabActive(2)
 
         if (is_tab_active):
             self.searchBorusanOtoPart(searchURL)
@@ -1003,7 +1013,7 @@ class App(MDApp):
        
 
         # WAIT FOR DOM TO LOAD
-        WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located((By.ID, "divItemResult")))
+        WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((By.ID, "divItemResult")))
         time.sleep(3)
 
         data5, is_exist = self.checkIfPartExistsBorusanOto(data5)
@@ -1025,16 +1035,17 @@ class App(MDApp):
         return mainURL, searchURL, usr_value, pw_value, data6;
     
     async def runTabControlProcessMercanlarOto(self, is_tab_active, mainURL, searchURL, usr_value, pw_value):
+            print('mercanlar search trigger 1')
+            driver.execute_script("window.open('about:blank', 'mercanlaroto');")
+            driver.switch_to.window("mercanlaroto")
+            driver.get(mainURL)
 
-            self.driver.execute_script("window.open('about:blank', 'mercanlaroto');")
-            self.driver.switch_to.window("mercanlaroto")
-            self.driver.get(mainURL)
-
-            # if (searchURL not in self.driver.current_url):
-            #     self.driver.get(mainURL)
+            # if (searchURL not in driver.current_url):
+            #     driver.get(mainURL)
                 # LOGGED IN KONTROLÜ EKLENECEK
                 # GET DOM ELEMENTS
-            if(self.driver.find_element(By.ID, 'LoginEmail')): 
+            
+            if(driver.find_element(By.ID, 'LoginEmail')): 
                 self.loginMercanlarOtoUser(usr_value, pw_value);
                 return;
             print('mercanlar search trigger 2')
@@ -1042,10 +1053,10 @@ class App(MDApp):
     
     def loginMercanlarOtoUser(self, usr_value, pw_value):
        
-            WebDriverWait(self.driver, 500).until(expected_conditions.visibility_of_element_located((By.ID, 'LoginEmail')))
-            username = self.driver.find_element(By.ID, 'LoginEmail') 
-            password = self.driver.find_element(By.ID, 'LoginPassword') 
-            login_button = self.driver.find_element(By.CSS_SELECTOR, '.login-btn-container .btn.btn-green') 
+            WebDriverWait(driver, 500).until(expected_conditions.visibility_of_element_located((By.ID, 'LoginEmail')))
+            username = driver.find_element(By.ID, 'LoginEmail') 
+            password = driver.find_element(By.ID, 'LoginPassword') 
+            login_button = driver.find_element(By.CSS_SELECTOR, '.login-btn-container .btn.btn-green') 
             # FILL DOM ELEMENTS
             username.send_keys(usr_value)
             password.send_keys(pw_value)
@@ -1060,25 +1071,28 @@ class App(MDApp):
     def searchMercanlarOtoPart(self):
          # GO TO SEARCH PAGE
         print('mercanlar search started')
-        WebDriverWait(self.driver, 100).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "footer-middle-inner")))
-        # WebDriverWait(self.driver, 10).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".img-responsive.center-block")))
+        WebDriverWait(driver, 100).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "footer-middle-inner")))
+        # WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".img-responsive.center-block")))
         # SEARCH PART
-        searchbar = self.driver.find_element(By.ID, "spare_part_number")
+        searchbar = driver.find_element(By.ID, "spare_part_number")
         print('searchbar', searchbar)
-        searchbar.send_keys(Keys.CONTROL + "a")
-        searchbar.send_keys(Keys.DELETE)  
+        input_value = searchbar.get_attribute("value")
+        if (input_value):
+            searchbar.send_keys(Keys.CONTROL + "a")
+            searchbar.send_keys(Keys.DELETE)  
         searchbar.send_keys(self.user_input)
-        searchbar.send_keys(Keys.ENTER)
+        searchbar.submit()
+        # searchbar.send_keys(Keys.ENTER)
 
-        print('mercanlar search ended')
+        # print('mercanlar search ended')
         # time.sleep(3)
 
         # # WAIT FOR DOM TO LOAD
-        # WebDriverWait(self.driver, 1000).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "result-container")))
+        # WebDriverWait(driver, 1000).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "result-container")))
 
     def checkIfPartExistsMercanlarOto(self, data6):
-        WebDriverWait(self.driver, 100).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".result-container")))
-        result_text = self.driver.find_element(By.CSS_SELECTOR, ".result-container").text
+        WebDriverWait(driver, 100).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".result-container")))
+        result_text = driver.find_element(By.CSS_SELECTOR, ".result-container").text
         alert_text = 'önermek'
         if (alert_text in result_text):
             no_record = ['','','','','','KAYIT BULUNAMADI','','','','']
@@ -1091,11 +1105,11 @@ class App(MDApp):
     def extractMercanlarOtoPartData(self, data6):
         ignored_exceptions=(StaleElementReferenceException)
         time.sleep(2.5)
-        WebDriverWait(self.driver, 100, ignored_exceptions).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".result-container")))
-        dom_elements = self.driver.find_elements(By.CSS_SELECTOR, ".product-item-wrapper")
+        WebDriverWait(driver, 100, ignored_exceptions).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".result-container")))
+        dom_elements = driver.find_elements(By.CSS_SELECTOR, ".product-item-wrapper")
         row_count = len(dom_elements);
 
-        table_data = self.driver.find_element(By.CSS_SELECTOR, '.result-container')
+        table_data = driver.find_element(By.CSS_SELECTOR, '.result-container')
 
         # time.sleep(4.5)
 
@@ -1161,7 +1175,7 @@ class App(MDApp):
     async def mercanlarOtoSearch(self):
         mainURL, searchURL, usr_value, pw_value, data6 = self.getMercanlarOtoVariables()
 
-        is_tab_active = self.checkIfTabActive(5)
+        is_tab_active = self.checkIfTabActive(3)
 
         
         if (is_tab_active):
@@ -1198,12 +1212,12 @@ class App(MDApp):
 
     async def runTabControlProcessBabacanOto(self, is_tab_active, mainURL, searchURL, cst_value, usr_value, pw_value):
         # if (not is_tab_active):
-            self.driver.execute_script("window.open('about:blank', 'babacanoto');")
-            self.driver.switch_to.window("babacanoto")
-            self.driver.get(mainURL)
+            driver.execute_script("window.open('about:blank', 'babacanoto');")
+            driver.switch_to.window("babacanoto")
+            driver.get(mainURL)
 
-            # if (searchURL not in self.driver.current_url):
-                # self.driver.get(mainURL)
+            # if (searchURL not in driver.current_url):
+                # driver.get(mainURL)
 
                 # LOGGED IN KONTROLÜ EKLENECEK
                 # GET DOM ELEMENTS
@@ -1213,35 +1227,35 @@ class App(MDApp):
                 
             
             except:
-                # search_button = self.driver.find_element(By.CSS_SELECTOR, '.has-sub.m-img-search a') 
+                # search_button = driver.find_element(By.CSS_SELECTOR, '.has-sub.m-img-search a') 
                 # search_button.click()
                 self.searchBabacanOtoPart(searchURL)
-                # self.driver.get(searchURL)
+                # driver.get(searchURL)
 
     def loginBabacanOtoUser(self, cst_value, usr_value, pw_value, searchURL):
-        if (self.driver.find_element(By.ID, 'txtCustomerB2bCode')):
-            customer_code = self.driver.find_element(By.ID, 'txtCustomerB2bCode') 
-            user_code = self.driver.find_element(By.ID, 'txtCustomerUserCode') 
-            password = self.driver.find_element(By.ID, 'txtCustomerPassword') 
-            login_button = self.driver.find_element(By.ID, 'btnLogin') 
+        if (driver.find_element(By.ID, 'txtCustomerB2bCode')):
+            customer_code = driver.find_element(By.ID, 'txtCustomerB2bCode') 
+            user_code = driver.find_element(By.ID, 'txtCustomerUserCode') 
+            password = driver.find_element(By.ID, 'txtCustomerPassword') 
+            login_button = driver.find_element(By.ID, 'btnLogin') 
             # FILL DOM ELEMENTS
             customer_code.send_keys(cst_value)
             user_code.send_keys(usr_value)
             password.send_keys(pw_value)
             login_button.click();
-            # self.driver.get(defaultURL)
-            search_button = self.driver.find_element(By.CSS_SELECTOR, '.has-sub.m-img-search a') 
+            # driver.get(defaultURL)
+            search_button = driver.find_element(By.CSS_SELECTOR, '.has-sub.m-img-search a') 
             search_button.click()
 
             self.searchBabacanOtoPart(searchURL)
 
     def searchBabacanOtoPart(self, searchURL):
-        if (self.driver.current_url != searchURL):
-            self.driver.get(searchURL)
+        if (driver.current_url != searchURL):
+            driver.get(searchURL)
         # GO TO SEARCH PAGE
-        WebDriverWait(self.driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, "txtGeneralSearch")))
+        WebDriverWait(driver, 1000).until(expected_conditions.visibility_of_element_located((By.ID, "txtGeneralSearch")))
         # SEARCH PART
-        searchbar = self.driver.find_element(By.ID, "txtGeneralSearch")
+        searchbar = driver.find_element(By.ID, "txtGeneralSearch")
         searchbar.send_keys(Keys.CONTROL + "a")
         searchbar.send_keys(Keys.DELETE)     
         searchbar.send_keys(self.user_input)
@@ -1251,10 +1265,10 @@ class App(MDApp):
 
     def extractBabacanOtoPartData(self, data7):
             print('extract babacan oto part')
-            dom_elements = self.driver.find_elements(By.CSS_SELECTOR, "#gvResult .Row")
+            dom_elements = driver.find_elements(By.CSS_SELECTOR, "#gvResult .Row")
             row_count = len(dom_elements);
 
-            table_data = self.driver.find_element(By.CSS_SELECTOR, "#gvResult")
+            table_data = driver.find_element(By.CSS_SELECTOR, "#gvResult")
 
 
 
@@ -1305,7 +1319,7 @@ class App(MDApp):
     async def babacanOtoSearch(self):
         mainURL, searchURL, defaultURL, cst_value, usr_value, pw_value, data7 = self.getBabacanOtoVariables()
 
-        is_tab_active = self.checkIfTabActive(6)
+        is_tab_active = self.checkIfTabActive(4)
 
         if (is_tab_active):
             self.searchBabacanOtoPart(searchURL)
@@ -1317,7 +1331,7 @@ class App(MDApp):
         # time.sleep(4)
 
         try:
-            if(self.driver.find_element(By.CSS_SELECTOR, '#gvResult .Row')):
+            if(driver.find_element(By.CSS_SELECTOR, '#gvResult .Row')):
 
                 data7 = self.extractBabacanOtoPartData(data7)
 
@@ -1351,16 +1365,19 @@ class App(MDApp):
 
     def hideTable(self):
         try:
-            print(self.table)
+            self.layout.remove_widget(self.data_tables)
             self.table.destroy()
             print('true')
         except:
+            self.layout.remove_widget(self.table_placeholder)
             print('false')
             return False
+        
 
 
     def searchPart(self, event):
-        # self.hideTable()
+        
+        self.hideTable()
         # self.showLoader()
 
         # self.data = ["MARKA", "ÜRETİCİ KODU ", "OEM", "ÜRÜN ADI", "AÇIKLAMA", "ARAÇ TİPİ", "MOTOR TİPİ", "LİSTE FİYAT", "KDV'Lİ MALİYET", "STOK"]
@@ -1372,11 +1389,11 @@ class App(MDApp):
 
         header_indexes = []
 
-        data1 = run(self.genelOtoSearch()) 
+        # data1 = run(self.genelOtoSearch()) 
 
         # data2 = run(self.motorAsinSearch()); 
         
-        # data3 = run(self.arsalOtoSearch()); 
+        data3 = run(self.arsalOtoSearch()); 
 
         # data4 = run(self.basbugOtoSearch()) 
 
@@ -1386,12 +1403,12 @@ class App(MDApp):
 
         # data7 = run(self.babacanOtoSearch())
 
-        print('GENEL OTO')
-        print(data1)
+        # print('GENEL OTO')
+        # print(data1)
         # print('MOTOR AŞİN')
         # print(data2)
-        # print('ARSAL OTO')
-        # print(data3)
+        print('ARSAL OTO')
+        print(data3)
         # print('BAŞBUĞ OTO')
         # print(data4)
         # print('BORUSAN OTO')
@@ -1413,17 +1430,17 @@ class App(MDApp):
         # 11417600466
 
 
-        self.data += data1;
-        header_indexes.append(1)
+        # self.data += data1;
+        # header_indexes.append(1)
 
        
         # index2 = int(len(self.data) / 10);
         # header_indexes.append(index2)
         # self.data += data2;
 
-        # index3 = int(len(self.data) / 10);
-        # header_indexes.append(index3)
-        # self.data += data3;
+        index3 = int(len(self.data) / 10);
+        header_indexes.append(index3)
+        self.data += data3;
 
 
         # index4 = int(len(self.data) / 10);
@@ -1484,6 +1501,7 @@ class App(MDApp):
             sorted_on="Schedule",
             sorted_order="ASC",
             elevation=2,
+            rows_num=10
         )
 
         self.layout.add_widget(self.data_tables)
