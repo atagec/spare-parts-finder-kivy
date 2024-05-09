@@ -659,58 +659,68 @@ class App(MDApp):
 
         table_data = driver.find_element(By.CSS_SELECTOR, ".place-self-center")
 
-        print('create arsal data')
-        for i in range(row_count):
-            brand_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(3) span';
-            brand = table_data.find_elements(By.CSS_SELECTOR, brand_selector)[1].text
+        # print('create arsal data')
+        # for i in range(row_count):
+        #     brand_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(3) span';
+        #     brand = table_data.find_elements(By.CSS_SELECTOR, brand_selector)[1].text
             
 
-            oem_no_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(5)';
-            oem_no = table_data.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
+        #     oem_no_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(5)';
+        #     oem_no = table_data.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
 
-            product_name_selector =  '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(3) span';
-            product_name = table_data.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
+        #     product_name_selector =  '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(3) span';
+        #     product_name = table_data.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
 
-            manufacturer_code = "-"
-            desc = '-'
-            content = '-'
-            car_type = '-'
-            engine_type = '-'
-            list_price = "-"
+        #     manufacturer_code = "-"
+        #     desc = '-'
+        #     car_type = '-'
+        #     engine_type = '-'
+        #     list_price = "-"
 
-            tax_included_price_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(8)'
-            tax_included_price = table_data.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text
+        #     tax_included_price_selector = '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(8)'
+        #     tax_included_price = table_data.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text
 
-            stock_selector = '.table-products tbody:nth-of-type(2) tr:nth-child(' + str(i + 1) + ') td:nth-child(11)';
 
-            try:
-                if (table_data.find_element(By.CSS_SELECTOR, '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(7) img[alt*="Var"]')):
-                    stock = 'VAR'
-                if (table_data.find_element(By.CSS_SELECTOR, '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(7) svg.fill-blue-500')):
-                    stock = "YOLDA"
-            except:
+        #     try:
+        #         if (table_data.find_element(By.CSS_SELECTOR, '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(7) img[alt*="Var"]')):
+        #             stock = 'VAR'
+        #         if (table_data.find_element(By.CSS_SELECTOR, '.p-datatable-tbody tr:nth-of-type(' +  str(i + 1)  +') td:nth-of-type(7) svg.fill-blue-500')):
+        #             stock = "YOLDA"
+        #     except:
+        #         stock = 'YOK'
+
+        #     values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
+        #     data3.extend(values)
+
+        # return data3;
+        print('create arsal data')
+        for i in range(row_count):
+                row_selector = f'.p-datatable-tbody tr:nth-of-type({i + 1})'
+
+                brand = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[1].text
+                oem_no = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(5)')[0].text
+                product_name = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[0].text
+
+                tax_included_price = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(8)')[0].text
+
                 stock = 'YOK'
+                if table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(7) img[alt*="Var"]'):
+                    stock = 'VAR'
+                elif table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(7) svg.fill-blue-500'):
+                    stock = 'YOLDA'
 
-            values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
-            data3.extend(values)
+                values = [brand, "-", oem_no, product_name, "-", "-", "-", "-", tax_included_price, stock]
+                data3.extend(values)
 
         return data3;
 
-    # def checkIfPartExistsArsalOto(self, data3):
-    #     WebDriverWait(driver, 4).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".p-datatable-emptymessage")))
-    #     result_message = driver.find_element(By.CSS_SELECTOR, ".p-datatable-emptymessage div")
-    #     if (alert_text in result_text):
-    #         no_record = ['','','','','','KAYIT BULUNAMADI','','','','']
-    #         data6.extend(no_record)
-        
-    #         return data6, False;
 
-    #     return data6, True;
+
     
     async def arsalOtoSearch(self):
         mainURL, searchURL, usr_value, pw_value, data3 = self.getArsalOtoVariables()
 
-        is_tab_active = self.checkIfTabActive(0)
+        is_tab_active = self.checkIfTabActive(1)
 
         if (is_tab_active):
            self.searchArsalOtoPart()
