@@ -1,0 +1,5 @@
+from .geneloto_scraper import GenelOtoScraper
+from .arsaloto_scraper import ArsalOtoScraper
+from .borusanoto_scraper import BorusanOtoScraper
+from .mercanlaroto_scraper import MercanlarOtoScraper
+from .babacanoto_scraper import BabacanOtoScraper
