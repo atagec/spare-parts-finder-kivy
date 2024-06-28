@@ -322,7 +322,6 @@ class App(MDApp):
 
     
     async def runTabControlProcessGenelOto(self, is_tab_active, mainURL, homeURL, searchURL, customer_code_value, user_code_value, password_value):
-            # if (driver.current_url != homeURL or driver.current_url != searchURL):
             driver.get(mainURL)
             # LOGGED IN KONTROLÜ EKLENECEK
             # GET DOM ELEMENTS
@@ -332,11 +331,7 @@ class App(MDApp):
                     await self.loginGenelOtoUser(customer_code_value, user_code_value, password_value, searchURL)    
             except:
                 self.searchGenelOtoPart(searchURL)
-            
-            # GO TO SEARCH PAGE
-            # if(driver.current_url != searchURL):
-            #     driver.get(searchURL)
-                # WAIT FOR DOM TO LOAD
+     
     
 
     def searchGenelOtoPart(self, searchURL):
@@ -361,47 +356,6 @@ class App(MDApp):
         table_data = driver.find_element(By.CSS_SELECTOR, "#tbResult")
        
         row_count = len(dom_elements);
-
-        # for i in range(row_count):
-
-            
-        #     brand_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(5)';
-        #     brand = table_data.find_elements(By.CSS_SELECTOR, brand_selector)[0].text
-
-        #     manufacturer_code_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(6)';
-        #     manufacturer_code = table_data.find_elements(By.CSS_SELECTOR, manufacturer_code_selector)[0].text
-
-        #     oem_no_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(7)';
-        #     oem_no = table_data.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
-
-        #     product_name_selector =  'tr:nth-child(' + str(i + 1) + ') td:nth-child(8)';
-        #     product_name = table_data.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
-
-        #     desc_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(9)';
-        #     desc = table_data.find_elements(By.CSS_SELECTOR, desc_selector)[0].text
-
-        #     content_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(10)';
-        #     content = table_data.find_elements(By.CSS_SELECTOR, content_selector)[0].text
-
-        #     car_type_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(11)';
-        #     car_type = table_data.find_elements(By.CSS_SELECTOR, car_type_selector)[0].text
-
-        #     engine_type_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(12)';
-        #     engine_type = table_data.find_elements(By.CSS_SELECTOR, engine_type_selector)[0].text
-
-        #     list_price_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(16)';
-        #     list_price = table_data.find_elements(By.CSS_SELECTOR, list_price_selector)[0].text
-
-        #     tax_included_price_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(17)'
-        #     tax_included_price = table_data.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text
-
-        #     stock_selector = 'tr:nth-child(' + str(i + 1) + ') td:nth-child(18) span:nth-child(2)';
-        #     stock = table_data.find_elements(By.CSS_SELECTOR, stock_selector)[0].text
-            
-        #     values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
-        #     data1.extend(values)
-            
-        # return data1;
 
         for i in range(row_count):
             row_index = i + 1
@@ -434,7 +388,6 @@ class App(MDApp):
    
     async def genelOtoSearch(self):
         mainURL, homeURL, searchURL, data1, customer_code_value, user_code_value, password_value = self.getGenelOtoVariables()
-        
 
         is_tab_active = self.checkIfTabActive(0)
 
@@ -1168,96 +1121,98 @@ class App(MDApp):
 
         time.sleep(4.5)
 
-        # for i in range(row_count):
-        #     brand_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(3) .value';
-        #     brand = table_data.find_elements(By.CSS_SELECTOR, brand_selector)[0].text
+        for i in range(row_count):
+            brand_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(3) .value';
+            brand = table_data.find_elements(By.CSS_SELECTOR, brand_selector)[0].text
             
 
-        #     oem_no_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value';
-        #     oem_no = table_data.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
+            oem_no_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value';
+            oem_no = table_data.find_elements(By.CSS_SELECTOR, oem_no_selector)[0].text
 
-        #     product_name_selector =  '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(3) .thumb-list-item-group:nth-of-type(1) .value';
-        #     product_name = table_data.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
+            product_name_selector =  '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(3) .thumb-list-item-group:nth-of-type(1) .value';
+            product_name = table_data.find_elements(By.CSS_SELECTOR, product_name_selector)[0].text
 
 
-        #     manufacturer_code_selector =  '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value';
-        #     manufacturer_code = table_data.find_elements(By.CSS_SELECTOR, manufacturer_code_selector)[0].text
+            manufacturer_code_selector =  '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value';
+            manufacturer_code = table_data.find_elements(By.CSS_SELECTOR, manufacturer_code_selector)[0].text
 
-        #     desc = '-'
-        #     content = '-'
-        #     car_type = '-'
-        #     engine_type = '-'
+            desc = '-'
+            content = '-'
+            car_type = '-'
+            engine_type = '-'
 
             
-        #     # list_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(2) .value'
-        #     list_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(3) .value'
-        #     list_price = table_data.find_elements(By.CSS_SELECTOR,  list_price_selector)[0].text.strip()
+            # list_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(2) .value'
+            list_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(3) .value'
+            list_price = table_data.find_elements(By.CSS_SELECTOR,  list_price_selector)[0].text.strip()
 
-        #     tax_included_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(2) .total-price'
-        #     tax_included_price = table_data.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text.strip()
+            tax_included_price_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(6) .row:nth-of-type(2) .total-price'
+            tax_included_price = table_data.find_elements(By.CSS_SELECTOR, tax_included_price_selector)[0].text.strip()
            
-        #     # price_value = original_price[original_price.find(':')+1 : original_price.find('TL')]
-        #     # tax_included_price =  price_value + 'TL'
+            # price_value = original_price[original_price.find(':')+1 : original_price.find('TL')]
+            # tax_included_price =  price_value + 'TL'
 
-        #     stock_values_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(5) .thumb-list-item-group .value:nth-of-type(2) ul span';
-        #     stock_values = table_data.find_elements(By.CSS_SELECTOR, stock_values_selector)
-        #     stock_count = len(stock_values)
-        #     stock = 'Yok'
-        #     value_array = []
+            stock_values_selector = '.product-item-wrapper:nth-of-type(' + str( i + 1 ) +') .css-table .col:nth-of-type(5) .thumb-list-item-group .value:nth-of-type(2) ul span';
+            stock_values = table_data.find_elements(By.CSS_SELECTOR, stock_values_selector)
+            stock_count = len(stock_values)
+            stock = 'Yok'
+            value_array = []
 
 
-        #     for j in range(stock_count):
-        #         stock_value = stock_values[j].get_attribute('class')
-        #         print('stock_value', stock_value)
-        #         if ('in-stock' in stock_value):
-        #             value_array.append('var')
-        #         elif ('critical' in stock_value):
-        #             value_array.append('var')
+            for j in range(stock_count):
+                stock_value = stock_values[j].get_attribute('class')
+                print('stock_value', stock_value)
+                if ('in-stock' in stock_value):
+                    value_array.append('var')
+                elif ('critical' in stock_value):
+                    value_array.append('var')
         
                 
-        #     if (bool(len(value_array))):
-        #         stock = 'Var'
+            if (bool(len(value_array))):
+                stock = 'Var'
 
            
             
-        #     values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
+            values = [brand, manufacturer_code, oem_no, product_name, desc, car_type, engine_type, list_price, tax_included_price, stock]
 
-        #     print("values", values)
+            print("values", values)
 
-        #     data6.extend(values)
-        selectors = {
-            "brand": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(3) .value",
-            "oem_no": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value",
-            "product_name": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(3) .thumb-list-item-group:nth-of-type(1) .value",
-            "manufacturer_code": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value",
-            "list_price": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(3) .value",
-            "tax_included_price": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(6) .row:nth-of-type(2) .total-price",
-            "stock": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(5) .thumb-list-item-group .value:nth-of-type(2) ul span"
-        }
-
-
-        for i in range(row_count):
-            values = []
-            selector_list = [selector.format(i + 1) for selector in selectors.values()]
-            combined_selector = "\n".join(selector_list)  # Join selectors with newline
-
-            elements = table_data.find_elements(By.CSS_SELECTOR, combined_selector)
-            for element, key in zip(elements, selectors):
-                # Handle potential exceptions
-                try:
-                    value = element.text.strip()
-                except:
-                    value = "-"
-                values.append(value)
-
-            # Stock check using list comprehension and conditional expression
-            stock_values = [span.get_attribute("class") for span in table_data.find_elements(By.CSS_SELECTOR, selectors["stock"].format(i + 1))]
-            stock = "Yok"
-            if any("in-stock" in stock_value for stock_value in stock_values):
-                stock = "Var"
-
-            values.append(stock)
             data6.extend(values)
+
+        # NEW SCRIPT
+        # selectors = {
+        #     "brand": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(3) .value",
+        #     "oem_no": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(2) .value",
+        #     "product_name": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(3) .thumb-list-item-group:nth-of-type(1) .value",
+        #     "manufacturer_code": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(2) .thumb-list-item-group:nth-of-type(1) .value",
+        #     "list_price": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(6) .row:nth-of-type(1) .col-xs-4:nth-of-type(3) .value",
+        #     "tax_included_price": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(6) .row:nth-of-type(2) .total-price",
+        #     "stock": ".product-item-wrapper:nth-of-type({}) .css-table .col:nth-of-type(5) .thumb-list-item-group .value:nth-of-type(2) ul span"
+        # }
+
+
+        # for i in range(row_count):
+        #     values = []
+        #     selector_list = [selector.format(i + 1) for selector in selectors.values()]
+        #     combined_selector = "\n".join(selector_list)  # Join selectors with newline
+
+        #     elements = table_data.find_elements(By.CSS_SELECTOR, combined_selector)
+        #     for element, key in zip(elements, selectors):
+        #         # Handle potential exceptions
+        #         try:
+        #             value = element.text.strip()
+        #         except:
+        #             value = "-"
+        #         values.append(value)
+
+        #     # Stock check using list comprehension and conditional expression
+        #     stock_values = [span.get_attribute("class") for span in table_data.find_elements(By.CSS_SELECTOR, selectors["stock"].format(i + 1))]
+        #     stock = "Yok"
+        #     if any("in-stock" in stock_value for stock_value in stock_values):
+        #         stock = "Var"
+
+        #     values.append(stock)
+        #     data6.extend(values)
         return data6;
 
 
@@ -1516,6 +1471,8 @@ class App(MDApp):
 
 
     def searchPart(self, event):
+
+        print('START')
         
         self.hideTable()
         # self.showLoader()
@@ -1529,32 +1486,32 @@ class App(MDApp):
 
         header_indexes = []
 
-        # data1 = run(self.genelOtoSearch()) 
+        data1 = run(self.genelOtoSearch()) 
 
         # data2 = run(self.motorAsinSearch()); 
         
-        # data3 = run(self.arsalOtoSearch()); 
+        data3 = run(self.arsalOtoSearch()); 
 
         # data4 = run(self.basbugOtoSearch()) 
 
-        # data5 = run(self.borusanOtoSearch()) 
+        data5 = run(self.borusanOtoSearch()) 
         
-        # data6 = run(self.mercanlarOtoSearch()) 
+        data6 = run(self.mercanlarOtoSearch()) 
 
         data7 = run(self.babacanOtoSearch())
 
-        # print('GENEL OTO')
-        # print(data1)
+        print('GENEL OTO')
+        print(data1)
         # print('MOTOR AŞİN')
         # print(data2)
-        # print('ARSAL OTO')
-        # print(data3)
+        print('ARSAL OTO')
+        print(data3)
         # print('BAŞBUĞ OTO')
         # print(data4)
-        # print('BORUSAN OTO')
-        # print(data5)
-        # print('MERCANLAR OTO')
-        # print(data6)
+        print('BORUSAN OTO')
+        print(data5)
+        print('MERCANLAR OTO')
+        print(data6)
         print('BABACAN OTO')
         print(data7)
 
@@ -1570,17 +1527,17 @@ class App(MDApp):
         # 11417600466
 
 
-        # self.data += data1;
-        # header_indexes.append(1)
+        self.data += data1;
+        header_indexes.append(1)
 
        
         # index2 = int(len(self.data) / 10);
         # header_indexes.append(index2)
         # self.data += data2;
 
-        # index3 = int(len(self.data) / 10);
-        # header_indexes.append(index3)
-        # self.data += data3;
+        index3 = int(len(self.data) / 10);
+        header_indexes.append(index3)
+        self.data += data3;
 
 
         # index4 = int(len(self.data) / 10);
@@ -1588,14 +1545,14 @@ class App(MDApp):
         # self.data += data4;
 
 
-        # index5 = int(len(self.data) / 10);
-        # header_indexes.append(index5)
-        # self.data += data5;
+        index5 = int(len(self.data) / 10);
+        header_indexes.append(index5)
+        self.data += data5;
 
 
-        # index6 = int(len(self.data) / 10);
-        # header_indexes.append(index6)
-        # self.data += data6;
+        index6 = int(len(self.data) / 10);
+        header_indexes.append(index6)
+        self.data += data6;
 
 
         index7 = int(len(self.data) / 10);
