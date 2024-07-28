@@ -72,12 +72,12 @@ class ArsalOtoScraper:
                 print('wow', f'{row_selector} td:nth-of-type(3) span')
 
                 # Old brand
-                # brand = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[1].text
-                brand = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(2) span')[1].text
+                brand = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[1].text
+                # brand = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(2) span')[1].text
                 oem_no = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(5)')[0].text
                 # Old product name
-                # product_name = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[0].text
-                product_name = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(2) span')[0].text
+                product_name = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(3) span')[0].text
+                # product_name = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(2) span')[0].text
 
                 tax_included_price = table_data.find_elements(By.CSS_SELECTOR, f'{row_selector} td:nth-of-type(8)')[0].text
 
